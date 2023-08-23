@@ -5,7 +5,7 @@ import PageBody from "./PageBody";
 import Footer from "./Footer";
 import LogoutModal from "./LogoutModal";
 
-const Wrapper = () => {
+const Wrapper = (props) => {
   return (
     <>
       {/* <!-- Page Wrapper --> */}
@@ -23,7 +23,7 @@ const Wrapper = () => {
             {/* <!-- End of Topbar --> */}
 
             {/* <!-- Begin Page Content --> */}
-            <PageBody></PageBody>
+            <PageBody>{props.children}</PageBody>
             {/* <!-- /.container-fluid --> */}
           </div>
           {/* <!-- End of Main Content --> */}
