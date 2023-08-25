@@ -5,41 +5,38 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import Input from "../UI/Input";
+import useInput from "../UI/use-input";
+import useSelect from "../UI/use-select";
+
+const searchFormInputValidator = () => {
+  return { isValid: true, helperText: "Error" };
+};
 
 const SearchForm = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const [categories, setCategories] = useState([]);
   // setup all the inputs.
-  const { inputHandler: idInputHandler, input: idInput } = Input({
+  const { inputHandler: idInputHandler, input: idInput } = useInput({
     label: "ID",
-    validator: () => {
-      return { isValid: true, helperText: "Error" };
-    },
+    validator: searchFormInputValidator,
   });
 
-  const { inputHandler: codeInputHandler, input: codeInput } = Input({
+  const { inputHandler: codeInputHandler, input: codeInput } = useInput({
     label: "Code",
-    validator: () => {
-      return { isValid: true, helperText: "Error" };
-    },
+    validator: searchFormInputValidator,
   });
 
-  const { inputHandler: nameInputHandler, input: nameInput } = Input({
+  const { inputHandler: nameInputHandler, input: nameInput } = useInput({
     label: "Name",
-    validator: () => {
-      return { isValid: true, helperText: "Error" };
-    },
+    validator: searchFormInputValidator,
   });
 
-  const { inputHandler: categoryInputHandler, input: categoryInput } = Input({
-    type: "select",
-    options: categories,
-    label: "Categories",
-    validator: () => {
-      return { isValid: true, helperText: "Error" };
-    },
-  });
+  const { inputHandler: categoryInputHandler, input: categoryInput } =
+    useSelect({
+      options: categories,
+      label: "Categories",
+      validator: searchFormInputValidator,
+    });
 
   // fetch all the categories.
   useEffect(() => {
