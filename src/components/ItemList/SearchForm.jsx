@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 // For Search Form
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import useInput from "../UI/use-input";
-import useSelect from "../UI/use-select";
+import useInput from "../../UI/use-input";
+import useSelect from "../../UI/use-select";
 
 const searchFormInputValidator = () => {
   return { isValid: true, helperText: "Error" };
 };
 
-const SearchForm = () => {
-  const [selectedValue, setSelectedValue] = useState("");
+const SearchForm = ({ searchItems }) => {
   const [categories, setCategories] = useState([]);
   // setup all the inputs.
   const { inputHandler: idInputHandler, input: idInput } = useInput({
@@ -50,10 +45,23 @@ const SearchForm = () => {
     fetchCategories();
   }, []);
 
+  const submitHandler = (event) => {
+    event.preventDefault();
+
+    const formData = {
+      id: idInputHandler.value,
+      code: codeInputHandler.value,
+      name: nameInputHandler.value,
+      category: categoryInputHandler.value,
+    };
+
+    searchItems(formData);
+  };
+
   return (
     <div className="card shadow mb-4">
       <div className="card-body">
-        <form className="row">
+        <form className="row" onSubmit={submitHandler}>
           <div className="col-2">{idInput}</div>
           <div className="col-2">{codeInput}</div>
           <div className="col-3">{nameInput}</div>

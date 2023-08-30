@@ -8,9 +8,8 @@ import InputLabel from "@mui/material/InputLabel";
 import InputHandler from "../inputHandler/InputHandler"; // Input Handler for handling validation, isTouch, etc...
 import { FormHelperText } from "@mui/material";
 
-const useSelect = ({ options: isOptionsAvaliable, label, validator }) => {
-  let options = isOptionsAvaliable || []; // Simplified options initialization
-
+const useSelect = ({ options, label, validator }) => {
+  // let options = isOptionsAvaliable || []; // Simplified options initialization
   const {
     value,
     isValid,

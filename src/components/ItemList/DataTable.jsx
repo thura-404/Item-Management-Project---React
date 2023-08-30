@@ -22,30 +22,21 @@ const truncateText = (text, maxLength) => {
   return text.substring(0, maxLength) + "...";
 };
 
-const DataTable = () => {
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [lastPage, setLastPage] = useState(1);
+const DataTable = ({ items: data, onPageChange, loading }) => {
+  let items = null;
+  let lastPage = null;
 
-  useEffect(() => {
-    const fetchResults = async () => {
-      setLoading(true);
-      const response = await fetch(
-        `http://127.0.0.1:8000/api/items?page=${currentPage}`
-      );
-      const responseData = await response.json();
-      setResults(responseData.items.data);
-      setLastPage(responseData.items.last_page);
-      setLoading(false);
-    };
+  console.log("data", data);
 
-    fetchResults();
-  }, [currentPage]);
+  if (data.data) {
+    items = data.data; // get all the items.
+    lastPage = +data.last_page; // get the last page
+  }
 
-  const pageChangeHandler = (event, newPage) => {
-    setCurrentPage(newPage);
-    // You can fetch paginated data here using the newPage value
+  // function to change the current page on pagination (underscore recieve an event function which we won't be using)
+  const pageChangeHandler = (_, newPage) => {
+    onPageChange(newPage);
+    console.log("new Page: ", newPage);
   };
 
   let contents = [];
@@ -85,7 +76,7 @@ const DataTable = () => {
               <TableBody>
                 {loading && contents.map((content) => content)}
                 {!loading &&
-                  results.map((result, no) => (
+                  items.map((result, no) => (
                     <TableRow
                       key={result.id}
                       sx={{
@@ -111,12 +102,14 @@ const DataTable = () => {
             </Table>
           </TableContainer>
 
-          <Pagination
-            count={lastPage}
-            shape="rounded"
-            className="mt-3 float-right"
-            onChange={pageChangeHandler}
-          />
+          {lastPage && (
+            <Pagination
+              count={lastPage}
+              shape="rounded"
+              className="mt-3 float-right"
+              onChange={pageChangeHandler}
+            />
+          )}
         </div>
       </div>
     </div>
